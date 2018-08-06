@@ -1,0 +1,29 @@
+#!/bin/bash
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+#
+#                             IMPORTANT WARNING
+#
+#  This file is managed remotely by Ansible orchestration tool. Any local
+#  changes will be overwritten without any notice !!! You have been warned !!!
+#
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+
+# Passphrase for backup encryption
+export PASSPHRASE='{{ hm_backupped__duplicity_passphrase }}'
+
+/usr/bin/logger Backup started at `date`
+
+# Perform backup of the whole '/' tree, file 'host-duplicity-exclude.txt' contains
+# exceptions.
+# Current settings:
+#   - keep 1 full backup per week plus increments
+#   - backup via SSH/rsync with key without password
+/usr/bin/duplicity --archive-dir {{ hm_backupped__archive_dir }} --tempdir {{ hm_backupped__temp_dir }} --full-if-older-than 1W --volsize 100 --no-print-statistics --verbosity 0 --include-filelist /root/host-backup-exclude.txt / rsync://{{ hm_backupped__backup_account }}@{{ hm_backupped__backup_target }}{{ hm_backupped__backup_path }}
+
+# Remove backups older than 1 week
+/usr/bin/duplicity remove-older-than 1W --archive-dir {{ hm_backupped__archive_dir }} --tempdir {{ hm_backupped__temp_dir }} --force --verbosity 0 rsync://{{ hm_backupped__backup_account }}@{{ hm_backupped__backup_target }}{{ hm_backupped__backup_path }}
+
+# Inform about backup status (DEVELOPMENT ONLY)
+#/usr/bin/duplicity collection-status rsync://{{ hm_backupped__backup_account }}@{{ hm_backupped__backup_target }}{{ hm_backupped__backup_path }} | /usr/bin/mail -s "[DEVEL] Regular backup status for [{{ ansible_fqdn }}]" root
+
+/usr/bin/logger Backup finished at `date`

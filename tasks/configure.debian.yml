@@ -1,0 +1,105 @@
+
+---
+
+- name: Configuring host backup script
+  template:
+    src: "{{ item }}"
+    dest: /root/host-backup.sh
+    owner: root
+    group: root
+    mode: 0755
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/host-backup.sh.j2"
+    - "group_files/servers-production/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-production/host-backup.sh.j2"
+    - "group_files/servers-development/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-development/host-backup.sh.j2"
+    - "group_files/servers-demo/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-demo/host-backup.sh.j2"
+    - "group_files/servers/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers/host-backup.sh.j2"
+    - "host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "host-backup.sh.j2"
+
+- name: Configuring host backup status script
+  template:
+    src: "{{ item }}"
+    dest: /root/host-backup-status.sh
+    owner: root
+    group: root
+    mode: 0755
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/host-backup-status.sh.j2"
+    - "group_files/servers-production/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-production/host-backup-status.sh.j2"
+    - "group_files/servers-development/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-development/host-backup-status.sh.j2"
+    - "group_files/servers-demo/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-demo/host-backup-status.sh.j2"
+    - "group_files/servers/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers/host-backup-status.sh.j2"
+    - "host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "host-backup-status.sh.j2"
+
+- name: Configuring host backup exclude file
+  template:
+    src: "{{ item }}"
+    dest: /root/host-backup-exclude.txt
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/host-backup-exclude.txt.j2"
+    - "group_files/servers-production/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-production/host-backup-exclude.txt.j2"
+    - "group_files/servers-development/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-development/host-backup-exclude.txt.j2"
+    - "group_files/servers-demo/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-demo/host-backup-exclude.txt.j2"
+    - "group_files/servers/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers/host-backup-exclude.txt.j2"
+    - "host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "host-backup-exclude.txt.j2"
+
+- name: Installing host backup cron script
+  template:
+    src: "{{ item }}"
+    dest: /etc/cron.d/host-backup
+    owner: root
+    group: root
+    mode: 0644
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/host-backup.cron.j2"
+    - "group_files/servers-production/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-production/host-backup.cron.j2"
+    - "group_files/servers-development/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-development/host-backup.cron.j2"
+    - "group_files/servers-demo/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-demo/host-backup.cron.j2"
+    - "group_files/servers/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers/host-backup.cron.j2"
+    - "host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "host-backup.cron.j2"
+
+- name: Installing host backup status cron script
+  template:
+    src: "{{ item }}"
+    dest: /etc/cron.d/host-backup-status
+    owner: root
+    group: root
+    mode: 0644
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/host-backup-status.cron.j2"
+    - "group_files/servers-production/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-production/host-backup-status.cron.j2"
+    - "group_files/servers-development/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-development/host-backup-status.cron.j2"
+    - "group_files/servers-demo/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers-demo/host-backup-status.cron.j2"
+    - "group_files/servers/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "group_files/servers/host-backup-status.cron.j2"
+    - "host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "host-backup-status.cron.j2"

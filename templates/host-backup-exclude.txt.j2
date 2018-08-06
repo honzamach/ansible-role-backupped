@@ -1,0 +1,25 @@
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+#
+#                             IMPORTANT WARNING
+#
+#  This file is managed remotely by Ansible orchestration tool. Any local
+#  changes will be overwritten without any notice !!! You have been warned !!!
+#
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+- /dev
+- /proc
+- /sys
+- /tmp
+- /var/tmp
++ /var/cache
+- **/.cache
+- /root/cache
+- /mnt
+- /media
+- /var/lib/mongodb
+- /var/lib/mysql
+- /var/log
+- /var/spool/postfix
+{% for i in hm_backupped__backup_excludes %}
+- {{ i }}
+{% endfor %}

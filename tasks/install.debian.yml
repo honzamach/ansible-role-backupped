@@ -1,0 +1,6 @@
+---
+
+- name: Installing necessary packages
+  apt:
+    name: "{{ hm_backupped__package_list }}"
+    state: latest

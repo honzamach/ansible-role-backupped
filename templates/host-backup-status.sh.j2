@@ -1,0 +1,16 @@
+#!/bin/bash
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+#
+#                             IMPORTANT WARNING
+#
+#  This file is managed remotely by Ansible orchestration tool. Any local
+#  changes will be overwritten without any notice !!! You have been warned !!!
+#
+#----------------------- <+++ansible-managed-file+++> -------------------------+
+
+if [ "$1" = "mail" ]
+then
+    /usr/bin/duplicity collection-status --archive-dir {{ hm_backupped__archive_dir }} --tempdir {{ hm_backupped__temp_dir }} rsync://{{ hm_backupped__backup_account }}@{{ hm_backupped__backup_target }}{{ hm_backupped__backup_path }} | /usr/bin/mail -s "Regular backup status for [{{ ansible_fqdn }}]" root
+else
+    /usr/bin/duplicity collection-status --archive-dir {{ hm_backupped__archive_dir }} --tempdir {{ hm_backupped__temp_dir }} rsync://{{ hm_backupped__backup_account }}@{{ hm_backupped__backup_target }}{{ hm_backupped__backup_path }}
+fi
