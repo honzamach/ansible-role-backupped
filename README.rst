@@ -172,12 +172,12 @@ Example Playbook
 
 Example content of inventory file ``inventory``::
 
-    [servers-backupped]
+    [servers_backupped]
     localhost
 
 Example content of role playbook file ``playbook.yml``::
 
-    - hosts: servers-backupped
+    - hosts: servers_backupped
       remote_user: root
       roles:
         - role: honzamach.backupped

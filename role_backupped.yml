@@ -11,7 +11,7 @@
 #   git clone https://github.com/honzamach/ansible-role-backupped.git honzamach.backupped
 #
 
-- hosts: servers-backupped
+- hosts: servers_backupped
   remote_user: root
   roles:
     - role: honzamach.backupped
