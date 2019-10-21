@@ -15,22 +15,19 @@ hm_backupped__package_list:
   - rsync
 
 #
-# Passphrase for backup encryption (intentionally commented so that it is undefined
-# and user is forced to set it).
+# Passphrase for backup encryption.
 #
-#hm_backupped__duplicity_passphrase:
+hm_backupped__duplicity_passphrase:
 
 #
-# Remote host for backup (intentionally commented so that it is undefined and
-# user is forced to set it).
+# Remote host for backup.
 #
-#hm_backupped__backup_target:
+hm_backupped__backup_target:
 
 #
-# Path to backup directory on remote host (intentionally commented so that it is
-# undefined and user is forced to set it).
+# Path to backup directory on remote host.
 #
-#hm_backupped__backup_path:
+hm_backupped__backup_path: /var/backups
 
 #
 # Name of the directory to which duplicity should put backup files.

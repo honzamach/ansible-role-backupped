@@ -10,11 +10,11 @@
     mode: 0755
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/host-backup.sh.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup.sh.j2"
-    - "group_files/servers/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers/host-backup.sh.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.backupped/host-backup.sh.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup.sh.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup.sh.j2"
     - "host-backup.sh.{{ ansible_lsb['codename'] }}.j2"
     - "host-backup.sh.j2"
 
@@ -27,11 +27,11 @@
     mode: 0755
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/host-backup-status.sh.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-status.sh.j2"
-    - "group_files/servers/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers/host-backup-status.sh.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.backupped/host-backup-status.sh.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-status.sh.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-status.sh.j2"
     - "host-backup-status.sh.{{ ansible_lsb['codename'] }}.j2"
     - "host-backup-status.sh.j2"
 
@@ -44,11 +44,11 @@
     mode: 0644
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/host-backup-exclude.txt.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-exclude.txt.j2"
-    - "group_files/servers/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers/host-backup-exclude.txt.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.backupped/host-backup-exclude.txt.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-exclude.txt.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-exclude.txt.j2"
     - "host-backup-exclude.txt.{{ ansible_lsb['codename'] }}.j2"
     - "host-backup-exclude.txt.j2"
 
@@ -60,11 +60,11 @@
     group: root
     mode: 0644
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/host-backup.cron.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup.cron.j2"
-    - "group_files/servers/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers/host-backup.cron.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.backupped/host-backup.cron.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup.cron.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup.cron.j2"
     - "host-backup.cron.{{ ansible_lsb['codename'] }}.j2"
     - "host-backup.cron.j2"
 
@@ -76,10 +76,10 @@
     group: root
     mode: 0644
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/host-backup-status.cron.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/host-backup-status.cron.j2"
-    - "group_files/servers/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
-    - "group_files/servers/host-backup-status.cron.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.backupped/host-backup-status.cron.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.backupped/host-backup-status.cron.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
+    - "inventory/group_files/servers/honzamach.backupped/host-backup-status.cron.j2"
     - "host-backup-status.cron.{{ ansible_lsb['codename'] }}.j2"
     - "host-backup-status.cron.j2"

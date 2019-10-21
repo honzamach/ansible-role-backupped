@@ -1,0 +1,17 @@
+---
+
+- name: "ASSERTION: 'hm_backupped__duplicity_passphrase' is sane"
+  assert:
+    that:
+      - 'hm_backupped__duplicity_passphrase is defined'
+    msg: "Configuration value 'hm_backupped__duplicity_passphrase' must contain backup passphrase"
+  tags:
+    - check
+
+- name: "ASSERTION: 'hm_backupped__backup_target' is sane"
+  assert:
+    that:
+      - 'hm_backupped__backup_target is defined'
+    msg: "Configuration value 'hm_backupped__backup_target' must contain SSH URI for backup target host"
+  tags:
+    - check

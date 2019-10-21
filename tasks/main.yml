@@ -1,9 +1,6 @@
 ---
 
-- name: Including secret configurations
-  include_vars: "vault/secrets.yml"
-  tags:
-    - always
+- import_tasks: check.yml
 
 #-------------------------------------------------------------------------------
 
