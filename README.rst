@@ -3,150 +3,29 @@
 Role **backupped**
 ================================================================================
 
-Ansible role for configuring periodical backup with Duplicity on all target systems.
-
 * `Ansible Galaxy page <https://galaxy.ansible.com/honzamach/accounts>`__
 * `GitHub repository <https://github.com/honzamach/ansible-role-accounts>`__
 * `Travis CI page <https://travis-ci.org/honzamach/ansible-role-accounts>`__
 
-
-Description
---------------------------------------------------------------------------------
-
 Main purpose of this role is to configure and perform regular backups to remote
-hosts using the `Duplicity <http://duplicity.nongnu.org/>`_ utility.
+servers using the `Duplicity <http://duplicity.nongnu.org/>`_ utility. The
+`rsync <https://linux.die.net/man/1/rsync>`__ is used as communication protocol
+for transfering backups to remote backup server.
 
-.. note::
+**Table of Contents:**
 
-    This role requires the :ref:`secure registry <section-overview-secure-registry>` feature.
+* :ref:`section-role-backupped-installation`
+* :ref:`section-role-backupped-dependencies`
+* :ref:`section-role-backupped-usage`
+* :ref:`section-role-backupped-variables`
+* :ref:`section-role-backupped-files`
+* :ref:`section-role-backupped-author`
 
-    This role supports the :ref:`template customization <section-overview-customize-templates>` feature.
-
-
-Requirements
---------------------------------------------------------------------------------
-
-This role does not have any special requirements.
-
-
-Dependencies
---------------------------------------------------------------------------------
-
-This role is not dependent on any other role.
-
-No other roles have direct dependency on this role.
+This role is part of the `MSMS <https://github.com/honzamach/msms>`__ package.
+Some common features are documented in its :ref:`manual <section-manual>`.
 
 
-Managed files
---------------------------------------------------------------------------------
-
-This role directly manages content of following files on target system:
-
-* ``/root/host-backup.sh``
-* ``/root/host-backup-status.sh``
-* ``/root/host-backup-exclude.txt``
-* ``/etc/cron.d/host-backup``
-* ``/etc/cron.d/host-backup-status``
-
-
-Role variables
---------------------------------------------------------------------------------
-
-There are following internal role variables defined in ``defaults/main.yml`` file,
-that can be overriden and adjusted as needed:
-
-
-.. envvar:: hm_backupped__package_list
-
-    List of role-related packages, that will be installed on target system.
-
-    * *Datatype:* ``string``
-    * *Default:* (please see YAML file ``defaults/main.yml``)
-
-.. envvar:: hm_backupped__duplicity_passphrase
-
-    Passphrase for backup encryption, intentionally without default value so that
-    user is forced to set it.
-
-    * *Datatype:* ``string``
-    * *Default:* ``null``
-
-.. envvar:: hm_backupped__backup_target
-
-    Remote host for backup, intentionally without default value so that user is
-    forced to set it.
-
-    * *Datatype:* ``string``
-    * *Default:* ``null``
-
-.. envvar:: hm_backupped__backup_path
-
-    Path to backup directory on remote host, intentionally without default value
-    so that user is forced to set it.
-
-    * *Datatype:* ``string``
-    * *Default:* ``null``
-
-.. envvar:: hm_backupped__archive_dir
-
-    Name of the directory to which Duplicity should put backup files.
-
-    * *Datatype:* ``string``
-    * *Default:* ``/var/cache/duplicity``
-
-.. envvar:: hm_backupped__temp_dir
-
-    Working directory for temporary files.
-
-    * *Datatype:* ``string``
-    * *Default:* ``/var/tmp/``
-
-.. envvar:: hm_backupped__backup_excludes
-
-    List of files/directories excluded from backup process.
-
-    * *Datatype:* ``list of strings``
-    * *Default:* ``empty list``
-
-
-.. envvar:: hm_backupped__cron_backup
-
-    Cron specification for backup operation. Default is every day at 02:00am.
-
-    * *Datatype:* ``string``
-    * *Default:* ``0 2 * * *``
-
-.. envvar:: hm_backupped__cron_backup_status
-
-    Cron specification for backup status operation. Default is every monday at 08:00am.
-
-    * *Datatype:* ``string``
-    * *Default:* ``0 8 * * 1``
-
-
-Usage and customization
---------------------------------------------------------------------------------
-
-This role is (attempted to be) written according to the `Ansible best practices <https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html>`__. The default implementation should fit most users,
-however you may customize it by tweaking default variables and providing custom
-templates.
-
-
-Variable customizations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Most of the usefull variables are defined in ``defaults/main.yml`` file, so they
-can be easily overridden almost from `anywhere <https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable>`__.
-
-
-Template customizations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This roles uses *with_first_found* mechanism for all of its templates. If you do
-not like anything about built-in template files you may provide your own custom
-templates. For now please see the role tasks for list of all checked paths for
-each of the template files.
-
+.. _section-role-backupped-installation:
 
 Installation
 --------------------------------------------------------------------------------
@@ -167,15 +46,27 @@ Currently the advantage of using direct Git cloning is the ability to easily upd
 the role when new version comes out.
 
 
-Example Playbook
+.. _section-role-backupped-dependencies:
+
+Dependencies
+--------------------------------------------------------------------------------
+
+This role is not dependent on any other role.
+
+No other roles have direct dependency on this role.
+
+
+.. _section-role-backupped-usage:
+
+Usage
 --------------------------------------------------------------------------------
 
 Example content of inventory file ``inventory``::
 
     [servers_backupped]
-    localhost
+    your-server
 
-Example content of role playbook file ``playbook.yml``::
+Example content of role playbook file ``role_playbook.yml``::
 
     - hosts: servers_backupped
       remote_user: root
@@ -186,16 +77,159 @@ Example content of role playbook file ``playbook.yml``::
 
 Example usage::
 
-    ansible-playbook -i inventory playbook.yml
+    # Run everything:
+    ansible-playbook --ask-vault-pass --inventory inventory role_playbook.yml
+
+It is recommended to follow these configuration principles:
+
+* Create/edit file ``inventory/group_vars/all/vars.yml`` and within define some sensible
+  defaults for all your managed servers::
+
+        # You will probably use the same passphrase for all your backups.
+        hm_backupped__duplicity_passphrase: "{{ vault_hm_backupped__duplicity_passphrase }}"
+
+        # You will probably backup to the same server.
+        hm_backupped__backup_target: ssh.datastorage.domain.org
+
+        # You will probably backup to the same location.
+        hm_backupped__backup_path: /var/backups
+
+* Create/edit :ref:`vault <section-overview-vault>` encrypted file ``inventory/group_vars/all/vault.yml``
+  and within store your backup encryption password::
+
+        vault_hm_backupped__duplicity_passphrase: something-so-secret-no1-is-gonna-guess
+
+* Use files ``inventory/host_vars/[your-server]/vars.yml`` to customize settings
+  for particular servers. Please see section :ref:`section-role-backupped-variables`
+  for all available options. You must for example define backup account name
+  or could exclude certain directories from backup::
+
+        hm_backupped__backup_account: bck_your_server
+        hm_backupped__backup_excludes:
+          - /var/lib/postgresql
+          - /var/tmp
 
 
-License
+.. _section-role-backupped-variables:
+
+Configuration variables
 --------------------------------------------------------------------------------
 
-MIT
+
+Internal role variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. envvar:: hm_backupped__package_list
+
+    List of packages defined separately for each linux distribution and package manager,
+    that MUST be present on target system. Any package on this list will be installed on
+    target host. This role currently recognizes only ``apt`` for ``debian``.
+
+    * *Datatype:* ``dict``
+    * *Default:* (please see YAML file ``defaults/main.yml``)
+    * *Example:*
+
+    .. code-block:: yaml
+
+        hm_backupped__install_packages:
+          debian:
+            apt:
+              - duplicity
+              - ...
+
+.. envvar:: hm_backupped__duplicity_passphrase
+
+    Passphrase for backup encryption. Intentionally without default value so that
+    user is forced to set it.
+
+    * *Datatype:* ``string``
+    * *Default:* ``null``
+
+.. envvar:: hm_backupped__backup_target
+
+    Remote backup server. Intentionally without default value so that the user is
+    forced to set it. It should be a hostname or URL.
+
+    * *Datatype:* ``string``
+    * *Default:* ``null``
+
+.. envvar:: hm_backupped__backup_path
+
+    Absolute path to backup directory on remote backup server.
+
+    * *Datatype:* ``string``
+    * *Default:* ``/var/backups``
+
+.. envvar:: hm_backupped__archive_dir
+
+    Name of the directory to which Duplicity should put backup files (local,
+    on backupped server).
+
+    * *Datatype:* ``string``
+    * *Default:* ``/var/cache/duplicity``
+
+.. envvar:: hm_backupped__temp_dir
+
+    Working directory for temporary files (local, on backupped server).
+
+    * *Datatype:* ``string``
+    * *Default:* ``/var/tmp/``
+
+.. envvar:: hm_backupped__backup_excludes
+
+    List of files/directories excluded from backup process.
+
+    * *Datatype:* ``list of strings``
+    * *Default:* ``empty list``
 
 
-Author Information
+.. envvar:: hm_backupped__cron_backup
+
+    Cron timing specification for backup operation. Default is every day at 02:00am.
+
+    * *Datatype:* ``string``
+    * *Default:* ``0 2 * * *``
+
+.. envvar:: hm_backupped__cron_backup_status
+
+    Cron timing specification for backup status operation. Default is every monday at 08:00am.
+
+    * *Datatype:* ``string``
+    * *Default:* ``0 8 * * 1``
+
+
+Built-in Ansible variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:envvar:`ansible_lsb['codename']`
+
+    Linux distribution codename. It is used for :ref:`template customizations <section-overview-role-customize-templates>`.
+
+
+.. _section-role-backupped-files:
+
+Managed files
 --------------------------------------------------------------------------------
 
-Jan Mach <honza.mach.ml@gmail.com>
+.. note::
+
+    This role supports the :ref:`template customization <section-overview-role-customize-templates>` feature.
+
+This role manages content of following files on target system:
+
+* ``/root/host-backup.sh`` *[TEMPLATE]*
+* ``/root/host-backup-status.sh`` *[TEMPLATE]*
+* ``/root/host-backup-exclude.txt`` *[TEMPLATE]*
+* ``/etc/cron.d/host-backup`` *[TEMPLATE]*
+* ``/etc/cron.d/host-backup-status`` *[TEMPLATE]*
+
+
+.. _section-role-backupped-author:
+
+Author and license
+--------------------------------------------------------------------------------
+
+| *Copyright:* (C) since 2019 Honza Mach <honza.mach.ml@gmail.com>
+| *Author:* Honza Mach <honza.mach.ml@gmail.com>
+| Use of this role is governed by the MIT license, see LICENSE file.
+|

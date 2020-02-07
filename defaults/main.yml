@@ -1,55 +1,30 @@
 ---
 
-#
-# List of role-related packages, that will be installed on target system.
-#
-hm_backupped__package_list:
-  - duplicity
-  - ncftp
-  - python-paramiko
-  - python-pycryptopp
-  - lftp
-  - python-boto
-  - python-dev
-  - librsync-dev
-  - rsync
+hm_backupped__install_packages:
+  debian:
+    apt:
+      - duplicity
+      - ncftp
+      - python-paramiko
+      - python-pycryptopp
+      - lftp
+      - python-boto
+      - python-dev
+      - librsync-dev
+      - rsync
 
-#
-# Passphrase for backup encryption.
-#
 hm_backupped__duplicity_passphrase:
 
-#
-# Remote host for backup.
-#
 hm_backupped__backup_target:
 
-#
-# Path to backup directory on remote host.
-#
 hm_backupped__backup_path: /var/backups
 
-#
-# Name of the directory to which duplicity should put backup files.
-#
 hm_backupped__archive_dir: /var/cache/duplicity
 
-#
-# Working directory for temporary files.
-#
 hm_backupped__temp_dir: /var/tmp/
 
-#
-# List of files/directories excluded from backup process.
-#
 hm_backupped__backup_excludes: []
 
-#
-# Cron specification for backup operation. Default is every day at 02:00am.
-#
 hm_backupped__cron_backup: "0 2 * * *"
 
-#
-# Cron specification for backup status operation. Default is every monday at 08:00am.
-#
 hm_backupped__cron_backup_status: "0 8 * * 1"
