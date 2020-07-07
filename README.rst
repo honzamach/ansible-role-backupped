@@ -63,6 +63,9 @@ Usage
 
 Example content of inventory file ``inventory``::
 
+    [servers]
+    your-server
+
     [servers_backupped]
     your-server
 
